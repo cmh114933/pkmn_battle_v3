@@ -63,7 +63,7 @@ function pause(callback){
   callback && callback()
 
   question(">>>")
-//   process.stdout.write('\033c');
+  console.clear()
 }
 
 function preBattleEval(){
@@ -121,7 +121,7 @@ let currentPokemon = null
 let winner = null
 
 // Display encounter
-// process.stdout.write('\033c');
+console.clear()
 console.log(`A wild ${oppPokemon.race} appears!`)
 console.log(`I choose you ${myPokemon.race}`)
 pause(() => {})
