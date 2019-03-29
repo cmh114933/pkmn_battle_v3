@@ -14,7 +14,7 @@ export interface pokemonType {
   export const pokemons = {
     "1": {
       "race": "Charmander",
-      "hp": 30,
+      "hp": 80,
       "maxHp": 30,
       "atk": 8,
       "def": 2,

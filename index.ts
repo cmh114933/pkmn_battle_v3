@@ -6,7 +6,7 @@ let myPokemon: pokemonType = pokemons["1"]
 myPokemon['own'] = true
 myPokemon['turnActionTaken'] = false
 
-let oppPokemon: pokemonType = pokemons["2"]
+let oppPokemon: pokemonType = pokemons["5"]
 oppPokemon['own'] = false
 oppPokemon['turnActionTaken'] = false
 
@@ -84,6 +84,7 @@ function preBattleEval(){
       status.continuousEffect()
     }
   })
+  // console.log(currentPokemon)
 
   victoryEval()
 }
@@ -130,7 +131,9 @@ while(!winner){
   pause( () => {
     preBattleEval()
     if(!winner){
-      myTurn() ? askUserAction():useRandomSkill()
+      if(!currentPokemon.turnActionTaken){
+        myTurn() ? askUserAction():useRandomSkill()
+      }
       postBattleEval()
     }
   })

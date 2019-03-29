@@ -57,9 +57,10 @@ export const statusEffects = {
       label: "Paralysis",
       user: null,
       target: null,
-      duration: 3,
+      duration: 2,
       initialEffect: function(){
         console.log(`${this.target.race} has been paralyzed!`)
+        this.target.turnActionTaken = true
       },
       continuousEffect: function(){
         console.log(`${this.target.race} suffers from Paralysis! ${this.target.race} cannot move!`)
@@ -98,6 +99,7 @@ export const statusEffects = {
       duration: 1,
       initialEffect: function(){
         console.log(`${this.target.race} has been disabled!`)
+        this.target.turnActionTaken = true
       },
       continuousEffect: function(){
         console.log(`${this.target.race} is disabled! ${this.target.race} cannot move!`)
