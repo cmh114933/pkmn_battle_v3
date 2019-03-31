@@ -1,5 +1,5 @@
 import {typeAdvantages} from './typeAdvantages'
-import {statusEffects} from './statusEffects'
+import {statusEffects, applyStatusEffect} from './statusEffects'
 
 
 const typeDamageCalculation = (damage, attackType, targetType) => {
@@ -53,93 +53,72 @@ const applyEffect = (user, target, effect) => {
       target: target
     }
   
-    appliedEffect.initialEffect && appliedEffect.initialEffect()
+    applyStatusEffect(appliedEffect,"initial")
     target.statuses.push(appliedEffect)
   }
 }
 
-export const skills = {
-  "Scratch": {
-    effect: (user, target) => {
-      const type = "Normal"
-      let damage = Math.floor((user.atk * 1.1 - target.def))
-      const totalDamage = typeDamageCalculation(damage, type, target.type)
+export function applySkillEffect(skillName, user, target){
+  let type = ""
+  let damage = 0
+  let totalDamage = 0
+  switch(skillName){
+    case "Scratch":
+      type = "Normal"
+      damage = Math.floor((user.atk * 1.1 - target.def))
+      totalDamage = typeDamageCalculation(damage, type, target.type)
       hpAdjuster(target, totalDamage, 'damage')
-    }
-  },
-  "Ember": {
-    effect: (user, target) => {
-      const type = "Fire"
-      let damage = Math.floor((user.atk * 1.5 - target.def * 0.8))
-      const totalDamage = typeDamageCalculation(damage, type, target.type)
+      break
+    case "Ember":
+      type = "Fire"
+      damage = Math.floor((user.atk * 1.5 - target.def * 0.8))
+      totalDamage = typeDamageCalculation(damage, type, target.type)
       hpAdjuster(target, totalDamage, 'damage')
       applyEffect(user, target, "Burn")
-    }
-  },
-  "Ice beam": {
-    effect: (user, target) => {
-      const type = "Ice"
-      let damage = Math.floor((user.atk * 1.3 - target.def))
-      const totalDamage = typeDamageCalculation(damage, type, target.type)
+      break
+    case "Ice beam":
+      type = "Ice"
+      damage = Math.floor((user.atk * 1.3 - target.def))
+      totalDamage = typeDamageCalculation(damage, type, target.type)
       hpAdjuster(target, totalDamage, 'damage')
-    }
-  },
-  "Defend": {
-    effect: (user, target) => {
+      break
+    case "Defend":
       applyEffect(user, user, "DEF UP")
-    }
-  },
-  "Leech Seed": {
-    effect: (user, target) => {
-      const type = "Grass"
+      break
+    case "Leech Seed":
       applyEffect(user, target, "Leech Seed")
-    }
-  },
-  "Recover": {
-    effect: (user, target) => {
+      break
+    case "Recover":
       hpAdjuster(user, 5, 'heal')
-    }
-  },
-  "Tackle": {
-    effect: (user, target) => {
-      const type = "Normal"
-      let damage = Math.floor((user.atk * 1.1 - target.def))
-      const totalDamage = typeDamageCalculation(damage, type, target.type)
+      break
+    case "Tackle":
+      type = "Normal"
+      damage = Math.floor((user.atk * 1.1 - target.def))
+      totalDamage = typeDamageCalculation(damage, type, target.type)
       hpAdjuster(target, totalDamage, 'damage')
-    }
-  },
-  "Gust": {
-    effect: (user, target) => {
-      const type = "Wind"
-      let damage = Math.floor((user.atk * 1.3 - target.def))
-      const totalDamage = typeDamageCalculation(damage, type, target.type)
+      break
+    case "Gust":
+      type = "Wind"
+      damage = Math.floor((user.atk * 1.3 - target.def))
+      totalDamage = typeDamageCalculation(damage, type, target.type)
       hpAdjuster(target, totalDamage, 'damage')
-    }
-  },
-  "Thunder": {
-    effect: (user, target) => {
-      const type = "Lightning"
-      let damage = Math.floor((user.atk * 2.5 - target.def * 0.5))
-      const totalDamage = typeDamageCalculation(damage, type, target.type)
+      break
+    case "Thunder":
+      type = "Lightning"
+      damage = Math.floor((user.atk * 2.5 - target.def * 0.5))
+      totalDamage = typeDamageCalculation(damage, type, target.type)
       hpAdjuster(target, totalDamage, 'damage')
       applyEffect(user, target, "Paralysis")
-    }
-  },
-  "Body Slam": {
-    effect: (user, target) => {
-      const type = "Normal"
-
-      let damage = Math.floor((user.atk * 1.5 - target.def))
-      const totalDamage = typeDamageCalculation(damage, type, target.type)
+      break
+    case "Body Slam":
+      type = "Normal"
+      damage = Math.floor((user.atk * 1.5 - target.def))
+      totalDamage = typeDamageCalculation(damage, type, target.type)
       hpAdjuster(target, totalDamage, 'damage')
       applyEffect(user, target, "Disabled")
-    }
-  },
-  "Sword Dance": {
-    effect: (user, target) => {
+      break
+    case "Sword Dance":
       applyEffect(user, user, "Sword Dance")
-    }
+      break
   }
 }
-
-

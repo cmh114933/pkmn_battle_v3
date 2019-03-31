@@ -1,12 +1,13 @@
 import { pokemons, pokemonType } from "./pokemon/pokemons";
-import { skills } from './pokemon/skills'
+import { applySkillEffect } from './pokemon/skills'
 import { question } from 'readline-sync'
-
+import { applyStatusEffect } from './pokemon/statusEffects'
+ 
 let myPokemon: pokemonType = pokemons["1"]
 myPokemon['own'] = true
 myPokemon['turnActionTaken'] = false
 
-let oppPokemon: pokemonType = pokemons["5"]
+let oppPokemon: pokemonType = pokemons["3"]
 oppPokemon['own'] = false
 oppPokemon['turnActionTaken'] = false
 
@@ -28,7 +29,7 @@ function displayTurnStatus(currentTurn){
 
 function useSkill(skillUsed){
   console.log(`${currentPokemon.race} uses ${skillUsed}`)
-  skills[skillUsed].effect(currentPokemon, nextPokemon())
+  applySkillEffect(skillUsed,currentPokemon, nextPokemon())
 }
 
 function useRandomSkill(){
@@ -74,14 +75,14 @@ function preBattleEval(){
 
   currentPokemon.statuses.forEach((status, index) => {
     if(status.duration == 0 ){
-      status.revertEffect()
+      applyStatusEffect(status,'revert')
     }
   })
   currentPokemon.statuses = currentPokemon.statuses.filter((status) => (status.duration !== 0))
 
   currentPokemon.statuses.forEach((status, index) => {
     if(status.duration > 0 ){
-      status.continuousEffect()
+      applyStatusEffect(status,"continuous")
     }
   })
   // console.log(currentPokemon)
